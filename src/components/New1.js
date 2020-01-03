@@ -39,7 +39,7 @@ class Cmp1 extends Component {
                     ))}
                 </ul>
                 <input type="button" value='改名' onClick={this.fn.bind(this)}/>
-                {this.props.name}
+                {/*{this.props.name}*/}
                 {this.props.age}
             </div>
         )

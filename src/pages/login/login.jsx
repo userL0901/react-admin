@@ -9,13 +9,12 @@ import storageUtils from '../../utils/storageUtils'
 
 class Login extends Component {
     handleSubmit = e => {
-        e.preventDefault();
+        e.preventDefault();//阻止事件默认提交（不会提交表单了）
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 // 请求登录
                 const {username, password} = values;
                 const response = await reqLogin(username, password);
-                console.log('成功', response);
                 if(response.status === 0){
                     message.success('登录成功');
                     //push可以回退
@@ -47,10 +46,11 @@ class Login extends Component {
     };
 
     render() {
-        //判断用户是否登录
+        //判断用户是否登录，防止在url里面输入login返回登录页面
         const user = memoryUtils.user;
-        if(user && user.user_id){
-            return <Redirect to='/'/>
+        console.log(user, 'user && user._id');
+        if(user && user._id){
+            return <Redirect to='/home'/>
         }
         const {getFieldDecorator} = this.props.form;
         return (
@@ -66,6 +66,8 @@ class Login extends Component {
                             <Form.Item>
                                 {getFieldDecorator('username', {
                                     initialValue: 'admin',
+                                    validateFirst: true,
+                                    whitespace: true,
                                     rules: [
                                         {required: true, whitespace: false, message: '请输入用户名'},
                                         {min: 4, message: '用户名至少4位'},
@@ -81,7 +83,7 @@ class Login extends Component {
                             </Form.Item>
                             <Form.Item>
                                 {getFieldDecorator('password', {
-                                    initialValue: '123456',
+                                    initialValue: 'admin',
                                     rules: [{validator: this.validatePwd}],
                                 })(
                                     <Input
@@ -110,5 +112,19 @@ class Login extends Component {
         )
     }
 }
+// 1.高阶函数 -->  create()
+// 特点：
+    // （1）接收函数类型的参数
+    // （2）返回值是函数
+        // eg：
+        // (a)定时器：setInterval() ;setTimeout()'
+        // (b)Promise(()=>{})then(value =>{} , reason=>())
+        // (c)数组遍历相关方法： forEach()/filter()/map()/reduce()/find()
+    // （3）高阶函数更新动态，更加具有扩展性
+// 2.高阶组件
+//    1）本质就是一个函数
+//    2）接收一个组件（被包装组件），返回一个新的组件（包装组件），包装组件会向被包装组件传入特定的属性
+//    3）作用：扩展组件的功能
+// 包装Form组件生成新的组件--> 新组件会向From组件传对象属性：form
 const Wrap = Form.create()(Login);
 export default Wrap

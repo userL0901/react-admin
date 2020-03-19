@@ -1,5 +1,8 @@
 import axios from 'axios'
 import {message} from 'antd';
+// 发送ajax异步的请求模块
+// 封装axios;
+// 函数返回值是Promise
 export default function ajax(url,data ={},type='GET') {
     return new Promise((resolve, reject)=>{
         let promise;

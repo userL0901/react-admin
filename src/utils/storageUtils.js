@@ -1,4 +1,4 @@
-import store from 'store';
+import store from 'store'; //库
 const USER_KEY = 'user_key';
 export default {
     saveUser(user){
@@ -6,8 +6,8 @@ export default {
         store.set(USER_KEY, user)
     },
     getUser(){
-        //return JSON.parse(localStorage.getItem(USER_KEY) || '{}')
-        store.get(USER_KEY || {})
+        return JSON.parse(localStorage.getItem(USER_KEY) || '{}')
+        // store.get(USER_KEY || {})
     },
     remover(){
         // localStorage.removeItem(USER_KEY)

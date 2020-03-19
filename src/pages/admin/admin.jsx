@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import memoryUtils from '../../utils/memoryUtils'
+import memoryUtils from '../../utils/memoryUtils'
 import {Redirect, Route, Switch} from 'react-router-dom';
 import {Layout} from 'antd';
 import LeftNav from '../../components/left-nav'
@@ -18,19 +18,19 @@ const {Footer, Sider, Content} = Layout;
 class Admin extends Component {
     render() {
         //判断是否登录
-        // const user = memoryUtils.user;
-        // if(!user || !user._id){
-        //     //自动跳转
-        //     return <Redirect to="/login"/>
-        // }
+        const user = memoryUtils.user;
+        //如果内存中没有 user
+        if(!user || !user._id){
+            //自动跳转
+            return <Redirect to="/login"/>
+        }
         return (
             <div style={{height: '100%'}}>
-                {/*{user.username}*/}
                 <Layout style={{height: '100%'}}>
                     <Sider><LeftNav/></Sider>
                     <Layout>
-                        <Header></Header>
-                        <Content style={{background: '#fff'}}>
+                        <Header/>
+                        <Content style={{margin: 20,background: '#fff'}}>
                             {/*Switch只匹配一个*/}
                             <Switch>
                                 <Route path='/home' component={Home}/>

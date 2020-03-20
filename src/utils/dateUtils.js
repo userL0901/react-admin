@@ -1,18 +1,18 @@
 /*格式化日期 */
-export function timeFormater(value) {
+export function timeFormater (value) {
     if (value !== "" && value !== null && value !== undefined) {
-        var value = new Date(value);
-        return `${value.getFullYear()}年${
-            value.getMonth() + 1 > 9
-                ? value.getMonth() + 1
-                : "0" + (value.getMonth() + 1)
-            }月${value.getDate() > 9 ? value.getDate() : "0" + value.getDate()}日  ${
-            value.getHours() > 9 ? value.getHours() : "0" + value.getHours()
+        var valueDate = new Date(value);
+        return `${valueDate.getFullYear()}-${
+            valueDate.getMonth() + 1 > 9
+                ? valueDate.getMonth() + 1
+                : "0" + (valueDate.getMonth() + 1)
+            }-${valueDate.getDate() > 9 ? valueDate.getDate() : "0" + valueDate.getDate()}  ${
+            valueDate.getHours() > 9 ? valueDate.getHours() : "0" + valueDate.getHours()
             }:${
-            value.getMinutes() > 9 ? value.getMinutes() : "0" + value.getMinutes()
+            valueDate.getMinutes() > 9 ? valueDate.getMinutes() : "0" + valueDate.getMinutes()
             }:${
-            value.getSeconds() > 9 ? value.getSeconds() : "0" + value.getSeconds()
+            valueDate.getSeconds() > 9 ? valueDate.getSeconds() : "0" + valueDate.getSeconds()
             }`;
     }
-    return value;
+    return valueDate;
 }

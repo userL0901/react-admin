@@ -40,7 +40,7 @@ class LeftNav extends Component {
                 ))
             }else{
                 //查找某个路由的子item
-                const cItem = item.children.find(cItem => cItem.key === path);
+                const cItem = item.children.find(cItem => path.indexOf(cItem.key)===0);
                 if(cItem){
                     this.openKey = item.key;
                 }
@@ -62,14 +62,15 @@ class LeftNav extends Component {
     }
     render() {
         //获取当前的路由路径
-        const path = this.props.location.pathname;
+        let path = this.props.location.pathname;
+        if(path.indexOf('/product')===0) path = '/product';
         //得到需要打开菜单的key
         const openKey = this.openKey;
         return (
             <div className="left-nav">
                 <Link to="/" className="left-nav-header">
                     <img src={logo} alt=""/>
-                    <h1>React后台</h1>
+                    <h1>乾坤商城管理</h1>
                 </Link>
                 <Menu
                     selectedKeys={[path]}

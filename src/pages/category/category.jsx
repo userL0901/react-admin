@@ -59,7 +59,8 @@ export default class Category extends Component {
     getCategorys = async (parentId) => {
         // 在发请求前, 显示loading
         this.setState({loading: true})
-        parentId = parentId || this.state.parentId
+        parentId = parentId || this.state.parentId;
+        this.parentId = parentId || this.state.parentId;
         // 发异步ajax请求, 获取数据
         const result = await reqCategorys(parentId)
         // 在请求完成后, 隐藏loading
@@ -127,12 +128,12 @@ export default class Category extends Component {
      */
     handleCancel = () => {
         // 清除输入数据
-        this.form.resetFields()
+        this.form.resetFields();
         // 隐藏确认框
         this.setState({
             showStatus: 0
         })
-    }
+    };
 
     /*
      显示添加的确认框
@@ -141,7 +142,7 @@ export default class Category extends Component {
         this.setState({
             showStatus: 1
         })
-    }
+    };
 
     /*
      添加分类
@@ -154,9 +155,9 @@ export default class Category extends Component {
                     showStatus: 0
                 })
                 // 收集数据, 并提交添加分类的请求
-                const {parentId, categoryName} = values
+                const {parentId, categoryName} = values;
                 // 清除输入数据
-                this.form.resetFields()
+                this.form.resetFields();
                 const result = await reqAddCategory(categoryName, parentId)
                 if (result.status === 0) {
                     // 添加的分类就是当前分类列表下的分类
@@ -177,7 +178,7 @@ export default class Category extends Component {
      */
     showUpdate = (category) => {
         // 保存分类对象
-        this.category = category
+        this.category = category;
         // 更新状态
         this.setState({
             showStatus: 2
@@ -188,21 +189,18 @@ export default class Category extends Component {
      更新分类
      */
     updateCategory = () => {
-        console.log('updateCategory()')
         // 进行表单验证, 只有通过了才处理
         this.form.validateFields(async (err, values) => {
             if (!err) {
                 // 1. 隐藏确定框
                 this.setState({
                     showStatus: 0
-                })
-
+                });
                 // 准备数据
-                const categoryId = this.category._id
-                const {categoryName} = values
+                const categoryId = this.category._id;
+                const {categoryName} = values;
                 // 清除输入数据
-                this.form.resetFields()
-
+                this.form.resetFields();
                 // 2. 发请求更新分类
                 const result = await reqUpdateCategory({categoryId, categoryName})
                 if (result.status === 0) {
@@ -211,10 +209,7 @@ export default class Category extends Component {
                 }
             }
         })
-
-
     }
-
 
     /*
      为第一次render()准备数据
@@ -234,9 +229,10 @@ export default class Category extends Component {
     render() {
 
         // 读取状态数据
-        const {categorys, subCategorys, parentId, parentName, loading, showStatus} = this.state
+        const {categorys, subCategorys, parentId, parentName, loading, showStatus} = this.state;
+        // const parentId = parentId || this.state.parentId;
         // 读取指定的分类
-        const category = this.category || {} // 如果还没有指定一个空对象
+        const category = this.category || {}; // 如果还没有指定一个空对象
 
         // card的左侧
         const title = parentId === '0' ? '一级分类列表' : (
@@ -259,7 +255,7 @@ export default class Category extends Component {
                     loading={loading}
                     dataSource={parentId === '0' ? categorys : subCategorys}
                     columns={this.columns}
-                    pagination={{defaultPageSize: 10, showQuickJumper: true}}
+                    pagination={{defaultPageSize: 5, showQuickJumper: true}}
                 />
                 <Modal
                     title="添加分类"

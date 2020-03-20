@@ -24,15 +24,22 @@ class AddForm extends Component {
                             initialValue: parentId
                         })(
                             <Select>
+                                <Option value='0'>一级分类</Option>
                                 {
-                                    categorys.map(item=><Option value={item._id}>{item.name}</Option>)
+                                    categorys.map(item=><Option value={item._id} key={item._id}>{item.name}</Option>)
                                 }
                             </Select>
                             )}
                     </Item>
                     <Item>
                         {getFieldDecorator('categoryName',{
-                            initialValue: ''
+                            initialValue: '',
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '请输入分类名称'
+                                }
+                            ]
                         })(
                             <Input placeholder="请输入分类名称"/>
                         )}

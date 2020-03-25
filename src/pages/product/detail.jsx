@@ -39,9 +39,9 @@ class ProductDetail extends Component {
         const {cName1, cName2} = this.state;
         const title =(
             <span>
-                <link-button>
+                <linkButton>
                    <Icon type="arrow-left" style={{color: 'green',marginRight: 10,fontSize: 18}} onClick={()=>{this.props.history.goBack()}}/>
-                </link-button>
+                </linkButton>
                 <span>商品详情</span>
             </span>
         );

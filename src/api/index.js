@@ -1,6 +1,6 @@
 import ajax from './request'
-import jsonp from 'jsonp'
-import {message} from 'antd'
+// import jsonp from 'jsonp'
+// import {message} from 'antd'
 // export function reqLogin(username, password){
 //     return ajax('/login',{username, password},'POST')
 // }
@@ -20,9 +20,10 @@ export const reqSearchProducts = ({pageNum, pageSize,searchName,searchType}) => 
 export const reqCategory = (categoryId) => ajax('/manage/category/info',{categoryId});
 //更新商品上架、下架
 export const requpdateStatus = (productId, status) => ajax('/manage/product/updateStatus',{productId, status}, 'POST');
-
+//图片的删除
+export const reqDeleteImg = (name) => ajax('/manage/img/delete',{name}, 'POST');
 export const reqWethere = (city) =>{
-    return new Promise((reslove,reject)=>{
+    /*return new Promise((reslove,reject)=>{
         // const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=LEdp28xQHy3NGPdQsGapML4EKLmtpeHC`;
         const url = `http://t.weather.sojson.com/api/weather/city/${city}`;
         jsonp(url,{},(err, data)=>{
@@ -40,5 +41,5 @@ export const reqWethere = (city) =>{
             }
 
         })
-    })
+    })*/
 };

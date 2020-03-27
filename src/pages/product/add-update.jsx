@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Card, Form, Input, Cascader, Button, Icon } from 'antd'
+import {Card, Form, Input, Cascader, Button, Icon, message } from 'antd'
 // import linkButton from '../../components/link-button'
-import {reqCategorys} from '../../api'
+import {reqCategorys, reqAddUpdateProduct} from '../../api'
 import PicturesWall from './picturesWall'
-import richTextEditor from './rich-text-editor'
+import RichTextEditor from './rich-text-editor'
 const { Item } = Form;
 const { TextArea } = Input;
 class ProductAddUpdate extends Component {
@@ -15,12 +15,33 @@ class ProductAddUpdate extends Component {
         super(props);
         //用来保存ref标识的标签对象的容器
         this.pw = React.createRef()
+        this.editor = React.createRef()
     }
     submit = ()=>{
-        this.props.form.validateFields((err, value)=>{
+        this.props.form.validateFields(async(err, value)=>{
             if(!err){
+                const {name, desc, price, categoryIds} = value;
+                let pCategoryId, categoryId;
+                if(categoryIds.length === 1){
+                    pCategoryId = '0'
+                    categoryId = categoryIds[0]
+                }else{
+                    pCategoryId = categoryIds[0]
+                    categoryId = categoryIds[1]
+                }
                 const imgs = this.pw.current.getImgs();
-                console.log(imgs,'img');
+                const editor = this.editor.current.getDetail();
+                const product = {name, desc, price, imgs, detail:editor, pCategoryId, categoryId};
+                if(this.isUpdate){
+                    product._id=this.product._id
+                }
+                const res = await reqAddUpdateProduct(product)
+                if(res.status ===0){
+                    message.success(`${this.isUpdate? '更新': '添加'}商品成功`);
+                    this.props.history.goBack();
+                }else{
+                    message.success(`${this.isUpdate? '更新': '添加'}商品失败`)
+                }
             }
         })
     };
@@ -87,6 +108,7 @@ class ProductAddUpdate extends Component {
         }else{
             targetOption.isLeaf = true;
         }
+        this.setState({options: [...this.state.options]})
     };
     componentDidMount(){
         this.getCategorys('0')
@@ -100,7 +122,7 @@ class ProductAddUpdate extends Component {
     }
     render() {
         const {isUpdate, product } = this;
-        const {pCategoryId, categoryId, imgs} = product;
+        const {pCategoryId, categoryId, imgs, detail} = product;
         //用来接收级联分类ID的数组
         const categoryIds = [];
         if(isUpdate){
@@ -176,8 +198,8 @@ class ProductAddUpdate extends Component {
                     <Item label="商品图片">
                         <PicturesWall ref={this.pw} imgs={imgs}/>
                     </Item>
-                    <Item label="商品详情" labelCol: {{span: 2 }} wrapperCol: {{ span: 20 }}>
-                        <richTextEditor/>
+                    <Item label="商品详情" labelCol = {{span: 2 }} wrapperCol = {{ span: 20 }}>
+                        <RichTextEditor ref={this.editor} detail={detail}/>
                     </Item>
                     <Item>
                         <Button type="primary" onClick={this.submit}>提交</Button>

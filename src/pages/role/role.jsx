@@ -140,7 +140,7 @@ class Role extends Component {
                         type: 'radio',
                         selectedRowKeys: [role._id],
                         onSelect:(role)=>{
-                            this.setState({role})
+                            this.setState({role})    
                         }
                     }}
                     onRow={this.onRow}

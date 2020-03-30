@@ -5,6 +5,8 @@ import {Link, withRouter} from 'react-router-dom'
 import {Menu, Icon} from 'antd';
 import menuList from '../../config/menuConfig'
 import memoryUtils from '../../utils/memoryUtils'
+import { connect } from 'react-redux'
+import { setHeadTitle } from '../../redux/actions'
 const {SubMenu} = Menu;
 
 class LeftNav extends Component {
@@ -36,9 +38,12 @@ class LeftNav extends Component {
             if(this.hasAuth(item)){
                 //向pre中添加<Menu.item>
                 if(!item.children){
+                    if(item.key === path || path.indexOf(item.key) === 0){
+                        this.props.setHeadTitle(item.title)
+                    }
                     pre.push((
                         <Menu.Item key={item.key}>
-                            <Link to={item.key}><Icon type={item.icon}/><span>{item.title}</span></Link>
+                            <Link to={item.key} onClick={()=> this.props.setHeadTitle(item.title)}><Icon type={item.icon}/><span>{item.title}</span></Link>
                         </Menu.Item>
                     ))
                 }else{
@@ -107,4 +112,7 @@ class LeftNav extends Component {
 //withRouter高阶组件
 //包装非路由组件，返回新组件
 //新组件向非路由组件传递3个属性：history/location/match，
-export default withRouter(LeftNav);
+export default connect(
+    state => ({}),
+    {setHeadTitle}
+)(withRouter(LeftNav));

@@ -22,7 +22,7 @@ class Login extends Component {
                     const user = response.data;
                     memoryUtils.user = user;
                     storageUtils.saveUser(user);
-                    this.props.history.replace('/');
+                    this.props.history.replace('/home');
                 }else{
                     message.error(response.msg)
                 }

@@ -4,6 +4,7 @@ import {Card, Form, Input, Cascader, Button, Icon, message } from 'antd'
 import {reqCategorys, reqAddUpdateProduct} from '../../api'
 import PicturesWall from './picturesWall'
 import RichTextEditor from './rich-text-editor'
+import memoryUtils from "../../utils/memoryUtils";
 const { Item } = Form;
 const { TextArea } = Input;
 class ProductAddUpdate extends Component {
@@ -115,10 +116,14 @@ class ProductAddUpdate extends Component {
     }
     componentWillMount(){
         //取出携带的state
-        const product = this.props.location.state;
-        this.isUpdate = !!product;
+        //const product = this.props.location.state;
+        const product = memoryUtils.product;
+        this.isUpdate = !!product._id;
         //保存商品，如果没有，保存是{}
         this.product = product || {};
+    }
+    componentWillUnmount(){
+        memoryUtils.product = {}
     }
     render() {
         const {isUpdate, product } = this;

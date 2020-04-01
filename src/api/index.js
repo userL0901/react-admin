@@ -1,6 +1,6 @@
 import ajax from './request'
-import jsonp from 'jsonp'
-import {message} from 'antd'
+// import jsonp from 'jsonp'
+// import {message} from 'antd'
 
 export const reqLogin = (username,password) => ajax('/login',{username, password}, 'POST');
 // 品类管理
@@ -37,21 +37,20 @@ export const reqAddOrUpdateUser  =(user) =>ajax('manage/user/'+ (user._id ? 'upd
 export const reqWethere = (city) =>{
     return new Promise((reslove,reject)=>{
         // const url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=LEdp28xQHy3NGPdQsGapML4EKLmtpeHC`;
-        const url = `http://t.weather.sojson.com/api/weather/city/${city}`;
-        jsonp(url,{},(err, data)=>{
-            // if(!err && data.status === 'success'){
-            //     const {dayPictureUrl,weather} = data.results[0].weather_data[0];
-            //     reslove({dayPictureUrl,weather})
-            // }else{
-            //     message.error('获取天气失败')
-            // }
-            if(!err && data.status === '200'){
-                const {dayPictureUrl,weather} = data.results[0].weather_data[0];
-                reslove({dayPictureUrl,weather})
-            }else{
-                message.error('获取天气失败')
-            }
-
-        })
+        // const url = `http://t.weather.sojson.com/api/weather/city/${city}`;
+        // jsonp(url,{},(err, data)=>{
+        //     // if(!err && data.status === 'success'){
+        //     //     const {dayPictureUrl,weather} = data.results[0].weather_data[0];
+        //     //     reslove({dayPictureUrl,weather})
+        //     // }else{
+        //     //     message.error('获取天气失败')
+        //     // }
+        //     if(!err && data.status === '200'){
+        //         const {dayPictureUrl,weather} = data.results[0].weather_data[0];
+        //         reslove({dayPictureUrl,weather})
+        //     }else{
+        //         message.error('获取天气失败')
+        //     }
+        // })
     })
 };

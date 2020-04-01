@@ -4,6 +4,7 @@ import {Card, Icon, List} from 'antd';
 import LinkButton from '../../components/link-button'
 import {BASE_IMG_URL} from '../../utils/constants'
 import {reqCategory} from '../../api'
+import memoryUtils from '../../utils/memoryUtils'
 const Item = List.Item;
 
 class ProductDetail extends Component {
@@ -12,7 +13,8 @@ class ProductDetail extends Component {
         cName2: '',//一级分类名称
     };
     async componentDidMount(){
-        const {categoryId, pCategoryId} = this.props.location.state;
+        // const {categoryId, pCategoryId} = this.props.location.state; //使用BowersRouter获取方式
+        const {categoryId, pCategoryId} = memoryUtils.product; //使用HashRouter获取方式
         if(pCategoryId === '0'){
             const res = await reqCategory(categoryId);
             const cName1 = res.data.name;
@@ -33,9 +35,13 @@ class ProductDetail extends Component {
             this.setState({cName1, cName2});
         }
     }
+    componentWillUnmount(){
+        memoryUtils.product = {}
+    }
     render() {
         //读取携带过来的state数据
-        const product = this.props.location.state;
+        // const product = this.props.location.state;
+        const product = memoryUtils.product
         const {cName1, cName2} = this.state;
         const title =(
             <span>

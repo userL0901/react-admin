@@ -4,10 +4,11 @@ import {withRouter} from 'react-router-dom'
 import { Modal } from 'antd';
 import LinkButton from '../link-button';
 import { timeFormater } from '../../utils/dateUtils'
-import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 import {reqWethere} from '../../api'
+import { connect } from 'react-redux'
 import menuList from '../../config/menuConfig'
+import {logout} from '../../redux/actions'
 
 class Header extends Component {
 
@@ -47,8 +48,8 @@ class Header extends Component {
             content: '确定退出吗？',
             onOk: () => {
                 storageUtils.remover();
-                memoryUtils.user = {};
-                this.props.history.replace('/login');
+                this.props.logout();
+                // this.props.history.replace('/login'); user为空admin里面自动跳到login
             }
         })
     };
@@ -63,8 +64,9 @@ class Header extends Component {
 
     render() {
         const {currentTime,dayPictureUrl,weather} = this.state;
-        const user = memoryUtils.user;
-        const title = this.getTitle();
+        const user = this.props.user;
+        //const title = this.getTitle();
+        const title = this.props.headTitle;
         return (
             <div className="header">
                 <div className="header-top">
@@ -84,4 +86,7 @@ class Header extends Component {
     }
 }
 
-export default withRouter(Header)
+export default connect(
+    state => ({headTitle: state.headTitle,user: state.user}),
+    {logout}
+)(withRouter(Header))

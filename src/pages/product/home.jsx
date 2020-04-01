@@ -3,6 +3,7 @@ import {Card, Select, Button, Input, Icon, Table, Message} from 'antd'
 import LinkButton from '../../components/link-button'
 import { reqProducts, reqSearchProducts, requpdateStatus } from '../../api'
 import { PAGE_SIZE } from '../../utils/constants'
+import memoryUtils from '../../utils/memoryUtils'
 const Option = Select.Option;
 
 class ProductHome extends Component {
@@ -52,15 +53,24 @@ class ProductHome extends Component {
                 render: (product) =>{
                     return(
                         <span>
-                            {/*将product传递给目标组件*/}
-                            <LinkButton onClick={() => {this.props.history.push('/product/detail', product)}}>详情</LinkButton>
-                            <LinkButton onClick={() => {this.props.history.push('/product/addupdate', product)}}>修改</LinkButton>
+                            {/*将product传递给目标组件,若果用的是hashRouter，则product不能这么传*/}
+                            <LinkButton onClick={() => this.showDetail(product)}>详情</LinkButton>
+                            <LinkButton onClick={() => this.showUpdate(product)}>修改</LinkButton>
                         </span>
                     )
                 }
             }
         ];
     };
+    showDetail = (product)=>{
+        memoryUtils.product = product
+        this.props.history.push('/product/detail')
+    }
+
+    showUpdate = (product) =>{
+        memoryUtils.product = product
+        this.props.history.push('/product/addupdate')
+    }
     //更新指定商品的状态
     updateStatus =async(_id, status) =>{
         const res = await requpdateStatus(_id, status);

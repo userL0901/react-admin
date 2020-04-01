@@ -4,7 +4,7 @@ import logo from '../../assets/image/login.jpg'
 import {Link, withRouter} from 'react-router-dom'
 import {Menu, Icon} from 'antd';
 import menuList from '../../config/menuConfig'
-import memoryUtils from '../../utils/memoryUtils'
+// import memoryUtils from '../../utils/memoryUtils'
 import { connect } from 'react-redux'
 import { setHeadTitle } from '../../redux/actions'
 const {SubMenu} = Menu;
@@ -71,8 +71,8 @@ class LeftNav extends Component {
         //2 、如果当前item是公开的（isPublic）
         //3、key有没有在menus中
         const {key, isPublic} = item;
-        const menus = memoryUtils.user.role.menus
-        const username = memoryUtils.user.username
+        const menus = this.props.user.role.menus
+        const username = this.props.user.username
         if(menus.indexOf(key)!==-1 || username ==='admin' || isPublic){
             return true
         }else if(item.children){
@@ -113,6 +113,6 @@ class LeftNav extends Component {
 //包装非路由组件，返回新组件
 //新组件向非路由组件传递3个属性：history/location/match，
 export default connect(
-    state => ({}),
+    state => ({user: state.user}),
     {setHeadTitle}
 )(withRouter(LeftNav));
